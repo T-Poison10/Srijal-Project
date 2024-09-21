@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Post Task</title>
+    </head>
+    <body>
+        <div class="task-form">
+            <h2>Post a Task</h2>
+            <form id="taskForm">
+                <label for="title">Title</label>
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    required
+                >
+                <label for="description">Description</label>
+                <textarea id="description" name="description" required></textarea>
+                <button type="submit" onclick="postTask()">Post Task</button>
+            </form>
+        </div>
+        <script>
+       
+
+            
+
+        function postTask() {
+            const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+
+        const task = {
+            title: title,
+            description: description
+        };
+            fetch('http://localhost:5000/task', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(task)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Task posted successfully!');
+                document.getElementById('taskForm').reset();
+            })
+            .catch(error => {
+                console.error('Error posting task:', error);
+                alert('Failed to post task.');
+            });
+        }
+        </script>
+    </body>
+</html>

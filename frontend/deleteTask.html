@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Delete Task</title>
+
+    </head>
+    <body>
+        <div class="task-form">
+            <h2>Delete a Task</h2>
+            <form id="deleteTaskForm">
+                <label for="taskId">Task ID</label>
+                <input
+                    type="text"
+                    id="taskId"
+                    name="taskId"
+                    required
+                >
+                <button type="submit" onclick="deleteTask()">Delete Task</button>
+            </form>
+        </div>
+        <script>
+
+            
+
+        async function deleteTask() {
+            const taskId = parseInt(document.getElementById('taskId').value);
+            await fetch('http://localhost:5000/task', { 
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body : JSON.stringify({id:taskId})
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Task deleted successfully!');
+                document.getElementById('deleteTaskForm').reset();
+            })
+            .catch(error => {
+                console.error('Error deleting task:', error);
+                alert('Failed to delete task.');
+            });
+        }
+        </script>
+    </body>
+</html>

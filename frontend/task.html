@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Task List</title>
+    </head>
+    <body>
+        <div class="task-list" id="task-list">
+            <h2>Tasks</h2>
+            <div id="tasks"></div>
+        </div>
+        <script>
+
+        async function fetchTasks() {
+            await fetch('http://localhost:5000/task') 
+                .then(response => response.json())
+                .then(data => {
+                    const taskContainer = document.getElementById('tasks');
+                    taskContainer.innerHTML = ''; 
+
+                    data.forEach(task => {
+                        const taskElement = document.createElement('div');
+                        taskElement.className = 'task';
+                        taskElement.innerHTML = `
+                            <h3>${task.title}</h3>
+                            <p>${task.description}</p>
+                        `;
+                        taskContainer.appendChild(taskElement);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching tasks:', error);
+                });
+        }
+        fetchTasks();
+        </script>
+    </body>
+</html>
