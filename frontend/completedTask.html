@@ -7,7 +7,7 @@
     </head>
     <body>
         <div class="task-list" id="task-list">
-            <h2>Tasks</h2>
+            <h2>Completed Tasks</h2>
             <div id="tasks"></div>
         </div>
         <script>
@@ -20,14 +20,13 @@
                     taskContainer.innerHTML = ''; 
                 
                     data.forEach(task => {
-                        if(task.isCompleter == false){
+                        if(task.isCompleter == true){
                         const taskElement = document.createElement('div');
                         taskElement.className = 'task';
                         taskElement.innerHTML = `
                             <p>${task.id}</p>
                             <h3>${task.title}</h3>
                             <p>${task.description}</p>
-                            <button onclick = 'completeTask(${task.id})')>Complete</button>
                         `;
                         taskContainer.appendChild(taskElement);
                 }});
@@ -40,18 +39,6 @@
 
         }
     
-
-        async function completeTask(id){
-            id = parseInt(id)
-            const response = await fetch('http://localhost:5000/task', {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id:id })
-            });
-
-            alert(`Task marked completed ${response}`)
-
-            }
 
 
 

@@ -34,6 +34,17 @@ app.delete("/task", async(req,res)=>{
     })
 })
 
+
+app.put("/task",async (req,res)=>{
+    const id = req.body.id
+    const updatedTask = await prisma.todo.update({
+        where:{id:id},
+        data:{isCompleter:true}
+    })
+
+    res.send(updatedTask)
+})
+
 app.listen(5000,()=>{
     console.log("Server is running")
 })
